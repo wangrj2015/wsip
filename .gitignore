@@ -10,3 +10,25 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+#OS generated files ignored#
+.DS_Store
+.classpath
+.project
+.settings
+target
+bin
+.myumldata
+*.mymetadata
+*~
+rebel.xml
+.$*
+*.home_IS_UNDEFINED
+*.IS_UNDEFINED
+*output_IS_UNDEFINED
+.idea
+*.iml
+
+# Log
+*logs/
+*.log
