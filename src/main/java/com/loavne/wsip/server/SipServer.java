@@ -1,6 +1,5 @@
 package com.loavne.wsip.server;
 
-import com.loavne.wsip.handler.SipProxyServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,20 +12,20 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by wangrenjie on 17/3/21.
  */
-public class SipProxyServer {
+public class SipServer {
 
-    private Logger logger = LoggerFactory.getLogger(SipProxyServer.class);
+    private Logger logger = LoggerFactory.getLogger(SipServer.class);
 
     private static EventLoopGroup bossGroup = new NioEventLoopGroup();
     private static EventLoopGroup workerGroup = new NioEventLoopGroup();
 
-    private static SipProxyServer instance;
+    private static SipServer instance;
 
-    public static SipProxyServer getInstance(){
+    public static SipServer getInstance(){
         if(null != instance){
             return instance;
         }
-        return new SipProxyServer();
+        return new SipServer();
     }
 
     public void start(){
@@ -38,7 +37,7 @@ public class SipProxyServer {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             pipeline.addLast(new StringDecoder());
-                            pipeline.addLast(new SipProxyServerHandler());
+                            pipeline.addLast(new SipServerHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG,128)

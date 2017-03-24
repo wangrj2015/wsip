@@ -1,6 +1,6 @@
 package com.loavne.wsip;
 
-import com.loavne.wsip.server.SipProxyServer;
+import com.loavne.wsip.server.SipServer;
 
 /**
  * Created by wangrenjie on 17/3/21.
@@ -8,6 +8,6 @@ import com.loavne.wsip.server.SipProxyServer;
 public class Launcher {
 
     public static void main(String[] args){
-        SipProxyServer.getInstance().start();
+        SipServer.getInstance().start();
     }
 }
