@@ -1,5 +1,7 @@
 package com.loavne.wsip.protocol;
 
+import com.loavne.wsip.protocol.header.HeaderKeys;
+
 /**
  * Created by wangrenjie on 17/3/24.
  */
@@ -39,5 +41,11 @@ public class SipRequestMsg extends SipMsg{
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getContact(){
+        String contact = this.getHeaders().get(HeaderKeys.KEY_CONTACT);
+        String[] array = contact.split(";\\+");
+        return array[0];
     }
 }

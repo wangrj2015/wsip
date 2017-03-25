@@ -1,7 +1,6 @@
 package com.loavne.wsip.server;
 
 import com.loavne.wsip.worker.WorkerFactory;
-import com.loavne.wsip.protocol.SipMsgBuilder;
 import com.loavne.wsip.protocol.SipRequestMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -17,11 +16,13 @@ public class SipServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        String message = (String)msg;
-        logger.debug(message);
-
-        SipRequestMsg sipRequestMsg = (SipRequestMsg) SipMsgBuilder.build(message);
+        SipRequestMsg sipRequestMsg = (SipRequestMsg) msg;
         WorkerFactory.getWorker(sipRequestMsg).work(ctx,sipRequestMsg);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        logger.error("exceptionCaught",cause);
         ctx.close();
     }
 }

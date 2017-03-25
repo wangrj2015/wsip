@@ -10,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public class ProxyWorker implements IWorker {
 
-    public void work(ChannelHandlerContext context, SipRequestMsg msg) {
+    public void work(ChannelHandlerContext ctx, SipRequestMsg msg) {
 
     }
 }

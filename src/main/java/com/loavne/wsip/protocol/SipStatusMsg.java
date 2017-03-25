@@ -1,5 +1,7 @@
 package com.loavne.wsip.protocol;
 
+import java.util.Map;
+
 /**
  * Created by wangrenjie on 17/3/24.
  */
@@ -39,5 +41,15 @@ public class SipStatusMsg extends SipMsg{
 
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer(version + " " + statusCode + " " + statusName + "\r\n");
+        for(Map.Entry<String,String> entry : headers.entrySet()){
+            sb.append(entry.getKey() + ": " + entry.getValue() + "\r\n");
+        }
+        sb.append("\r\n");
+        return sb.toString();
     }
 }

@@ -8,5 +8,5 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public interface IWorker {
 
-    void work(ChannelHandlerContext context, SipRequestMsg msg);
+    void work(ChannelHandlerContext ctx, SipRequestMsg msg);
 }
