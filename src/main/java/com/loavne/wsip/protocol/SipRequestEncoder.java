@@ -1,6 +1,6 @@
 package com.loavne.wsip.protocol;
 
-import com.loavne.wsip.protocol.msg.SipStatusMsg;
+import com.loavne.wsip.protocol.msg.SipRequestMsg;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,25 +12,25 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 
 /**
- * Created by wangrenjie on 17/3/25.
+ * Created by wangrenjie on 17/3/26.
  */
-public class SipStatusEncoder extends MessageToByteEncoder<SipStatusMsg>{
+public class SipRequestEncoder extends MessageToByteEncoder<SipRequestMsg> {
 
     private Logger logger = LoggerFactory.getLogger(SipStatusEncoder.class);
 
     private Charset charset;
 
-    public SipStatusEncoder(){
+    public SipRequestEncoder(){
         this.charset = Charset.defaultCharset();
     }
 
-    public SipStatusEncoder(Charset charset){
+    public SipRequestEncoder(Charset charset){
         this.charset = charset;
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, SipStatusMsg sipStatusMsg, ByteBuf byteBuf) throws Exception {
-        logger.debug("send:{}",sipStatusMsg.toString());
-        byteBuf.writeBytes(ByteBufUtil.encodeString(ctx.alloc(), CharBuffer.wrap(sipStatusMsg.toString()), this.charset));
+    protected void encode(ChannelHandlerContext ctx, SipRequestMsg sipRequestMsg, ByteBuf byteBuf) throws Exception {
+        logger.debug("send:{}",sipRequestMsg.toString());
+        byteBuf.writeBytes(ByteBufUtil.encodeString(ctx.alloc(), CharBuffer.wrap(sipRequestMsg.toString()), this.charset));
     }
 }

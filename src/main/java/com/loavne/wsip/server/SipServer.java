@@ -1,14 +1,13 @@
 package com.loavne.wsip.server;
 
-import com.loavne.wsip.protocol.SipRequestDecoder;
+import com.loavne.wsip.protocol.SipMsgDecoder;
+import com.loavne.wsip.protocol.SipRequestEncoder;
 import com.loavne.wsip.protocol.SipStatusEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +39,8 @@ public class SipServer {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             pipeline.addLast(new SipStatusEncoder());
-                            pipeline.addLast(new SipRequestDecoder());
+                            pipeline.addLast(new SipRequestEncoder());
+                            pipeline.addLast(new SipMsgDecoder());
                             pipeline.addLast(new SipServerHandler());
                         }
                     })

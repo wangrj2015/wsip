@@ -28,6 +28,17 @@ public class ContactHolder {
         return context;
     }
 
+    public static ContactContext getOkContactContext(String contact){
+        ContactContext contactContext = getContactContext(contact);
+        if(null == contactContext){
+            return null;
+        }
+        if(contactContext.getContactState() instanceof ContactStateOk){
+            return contactContext;
+        }
+        return null;
+    }
+
     public static void putContactContext(String contact,ContactContext context){
         contactContextMap.putIfAbsent(contact,context);
     }

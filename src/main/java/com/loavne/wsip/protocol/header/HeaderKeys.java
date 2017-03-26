@@ -23,5 +23,7 @@ public class HeaderKeys {
 
     public static final String KEY_CONTACT = "Contact";
 
+    public static final String KEY_AUTHENTICATION = "Authorization";
+
 
 }

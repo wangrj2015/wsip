@@ -1,4 +1,4 @@
-package com.loavne.wsip.protocol;
+package com.loavne.wsip.protocol.msg;
 
 import java.util.Map;
 

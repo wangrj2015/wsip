@@ -1,9 +1,9 @@
 package com.loavne.wsip.worker.registrar.contact;
 
-import com.google.common.collect.Maps;
-import com.loavne.wsip.protocol.SipRequestMsg;
-import com.loavne.wsip.protocol.SipStatusMsg;
+import com.loavne.wsip.protocol.msg.SipRequestMsg;
+import com.loavne.wsip.protocol.msg.SipStatusMsg;
 import com.loavne.wsip.protocol.header.HeaderKeys;
+import com.loavne.wsip.util.Constants;
 import com.loavne.wsip.util.MapUtils;
 
 import java.util.Map;
@@ -16,9 +16,9 @@ public class ContactStateInit implements ContactState {
 
     public SipStatusMsg state(SipRequestMsg msg) {
         SipStatusMsg result = new SipStatusMsg(msg.getVersion(),"401","Unauthorized");
-        Map<String,String> headers = Maps.newHashMap();
+        Map<String,String> headers = result.getHeaders();
         headers.put(HeaderKeys.KEY_CONTENT_LENGTH,"0");
-        headers.put(HeaderKeys.KEY_SERVER,"wsip/1.0 (wangrenjie)");
+        headers.put(HeaderKeys.KEY_SERVER, Constants.SERVER);
         headers.put(HeaderKeys.KEY_WWW_AUTHENTICATE,
                 "Digest realm=\"127.0.0.1\",nonce=\"" + System.currentTimeMillis() + "\"");
 
@@ -36,7 +36,6 @@ public class ContactStateInit implements ContactState {
                 HeaderKeys.KEY_FROM,
                 HeaderKeys.KEY_TO);
 
-        result.setHeaders(headers);
         return result;
     }
 }

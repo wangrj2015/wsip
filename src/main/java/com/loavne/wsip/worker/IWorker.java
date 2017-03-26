@@ -1,6 +1,6 @@
 package com.loavne.wsip.worker;
 
-import com.loavne.wsip.protocol.SipRequestMsg;
+import com.loavne.wsip.protocol.msg.SipRequestMsg;
 import io.netty.channel.ChannelHandlerContext;
 
 /**

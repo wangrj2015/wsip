@@ -1,11 +1,11 @@
 package com.loavne.wsip.worker.registrar;
 
-import com.loavne.wsip.protocol.SipStatusMsg;
+import com.loavne.wsip.protocol.msg.SipStatusMsg;
+import com.loavne.wsip.protocol.header.HeaderKeys;
+import com.loavne.wsip.util.Constants;
 import com.loavne.wsip.worker.IWorker;
-import com.loavne.wsip.protocol.SipRequestMsg;
-import com.loavne.wsip.worker.registrar.contact.ContactContext;
-import com.loavne.wsip.worker.registrar.contact.ContactHolder;
-import com.loavne.wsip.worker.registrar.contact.ContactStateInit;
+import com.loavne.wsip.protocol.msg.SipRequestMsg;
+import com.loavne.wsip.worker.registrar.contact.*;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,20 +20,22 @@ public class RegisterWorker implements IWorker {
 
     private Logger logger = LoggerFactory.getLogger(RegisterWorker.class);
 
-    private static final int DEFAULT_EXPIRES = 1200;
-
     public void work(ChannelHandlerContext ctx, SipRequestMsg msg) {
         String contact = msg.getContact();
         ContactContext contactContext = ContactHolder.getContactContext(contact);
-        if(null == contactContext){
-            contactContext = new ContactContext(contact);
-            contactContext.setExpires(DEFAULT_EXPIRES);
-            contactContext.setExpiresMillTimes(System.currentTimeMillis() + DEFAULT_EXPIRES*1000);
-            contactContext.setContactState(new ContactStateInit());
-            ContactHolder.putContactContext(contact,contactContext);
+        if(null != msg.getHeaders().get(HeaderKeys.KEY_AUTHENTICATION)){
+            if(null == contactContext || !(contactContext.getContactState() instanceof ContactStateUnauthorized)){
+                contactContext = rebuildContext(contact,new ContactStateUnauthorized());
+            }
+        }else{
+            contactContext = rebuildContext(contact,new ContactStateInit());
         }
-        SipStatusMsg statusMsg = contactContext.handle(msg);
+        contactContext.setChannel(ctx.channel());
 
+        SipStatusMsg statusMsg = contactContext.handle(msg);
+        if(null == statusMsg){
+            return;
+        }
         final ContactContext c = contactContext;
         ChannelFuture f = ctx.writeAndFlush(statusMsg);
         f.addListener(new ChannelFutureListener() {
@@ -41,6 +43,15 @@ public class RegisterWorker implements IWorker {
                 c.nextState();
             }
         });
+    }
+
+    private ContactContext rebuildContext(String contact, ContactState contactState){
+        ContactContext contactContext = new ContactContext(contact);
+        contactContext.setExpires(Constants.DEFAULT_EXPIRES);
+        contactContext.setExpiresMillTimes(System.currentTimeMillis() + Constants.DEFAULT_EXPIRES * 1000);
+        contactContext.setContactState(contactState);
+        ContactHolder.putContactContext(contact,contactContext);
+        return contactContext;
     }
 
 }

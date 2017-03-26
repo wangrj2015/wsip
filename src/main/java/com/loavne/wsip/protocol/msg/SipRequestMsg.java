@@ -1,6 +1,8 @@
-package com.loavne.wsip.protocol;
+package com.loavne.wsip.protocol.msg;
 
 import com.loavne.wsip.protocol.header.HeaderKeys;
+
+import java.util.Map;
 
 /**
  * Created by wangrenjie on 17/3/24.
@@ -44,8 +46,18 @@ public class SipRequestMsg extends SipMsg{
     }
 
     public String getContact(){
-        String contact = this.getHeaders().get(HeaderKeys.KEY_CONTACT);
-        String[] array = contact.split(";\\+");
-        return array[0];
+        String contact = this.getHeaders().get(HeaderKeys.KEY_TO);
+        return contact;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer(directive + " " + address + " " + version + "\r\n");
+        for(Map.Entry<String,String> entry : headers.entrySet()){
+            sb.append(entry.getKey() + ": " + entry.getValue() + "\r\n");
+        }
+        sb.append("\r\n");
+        sb.append(body);
+        return sb.toString();
     }
 }

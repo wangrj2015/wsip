@@ -38,5 +38,14 @@ public enum Directive {
 
     BYE;
 
+    public static boolean contains(String name){
+        for(Directive directive : values()){
+            if(directive.name().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

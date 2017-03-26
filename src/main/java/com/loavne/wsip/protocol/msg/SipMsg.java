@@ -1,4 +1,6 @@
-package com.loavne.wsip.protocol;
+package com.loavne.wsip.protocol.msg;
+
+import com.google.common.collect.Maps;
 
 import java.util.Map;
 
@@ -9,7 +11,9 @@ public abstract class SipMsg {
 
     protected String line;
 
-    protected Map<String,String> headers;
+    protected Map<String,String> headers = Maps.newHashMap();
+
+    protected String body;
 
     public String getLine() {
         return line;
@@ -25,5 +29,13 @@ public abstract class SipMsg {
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }
