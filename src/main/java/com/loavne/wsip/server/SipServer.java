@@ -8,6 +8,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +41,7 @@ public class SipServer {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             pipeline.addLast(new SipStatusEncoder());
                             pipeline.addLast(new SipRequestEncoder());
-                            pipeline.addLast(new SipMsgDecoder());
+                            pipeline.addLast(new SipMsgDecoder(1024,false,false));
                             pipeline.addLast(new SipServerHandler());
                         }
                     })
