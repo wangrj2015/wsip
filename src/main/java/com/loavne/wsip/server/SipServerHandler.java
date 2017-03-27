@@ -31,7 +31,7 @@ public class SipServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error("exceptionCaught",cause);
+        logger.error("channel:{}",ctx.channel().remoteAddress(),cause);
         ctx.close();
     }
 }

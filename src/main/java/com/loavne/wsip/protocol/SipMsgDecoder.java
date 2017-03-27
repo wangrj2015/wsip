@@ -85,9 +85,16 @@ public class SipMsgDecoder extends LineBasedFrameDecoder {
 
         ByteBuf temp = null;
         if(msgBuffer.isReadBody()){
+            if(msgBuffer.getContentLength() == 0 || !byteBuf.isReadable()
+                    || byteBuf.readableBytes() < msgBuffer.getContentLength()){
+                return null;
+            }
             temp = byteBuf.readRetainedSlice(msgBuffer.getContentLength());
         }else{
             temp = (ByteBuf) super.decode(ctx,byteBuf);
+        }
+        if(null == temp){
+            return null;
         }
         String message = temp.toString(charset);
         if(!message.equals("\r\n")){
