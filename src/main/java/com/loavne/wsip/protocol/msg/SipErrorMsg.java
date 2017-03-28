@@ -5,4 +5,8 @@ package com.loavne.wsip.protocol.msg;
  */
 public class SipErrorMsg extends SipMsg{
 
+    @Override
+    public String getDirective() {
+        return null;
+    }
 }

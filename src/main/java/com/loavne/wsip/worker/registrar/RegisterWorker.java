@@ -3,7 +3,7 @@ package com.loavne.wsip.worker.registrar;
 import com.loavne.wsip.protocol.msg.SipStatusMsg;
 import com.loavne.wsip.protocol.header.HeaderKeys;
 import com.loavne.wsip.util.Constants;
-import com.loavne.wsip.worker.IWorker;
+import com.loavne.wsip.worker.AbstractWorker;
 import com.loavne.wsip.protocol.msg.SipRequestMsg;
 import com.loavne.wsip.worker.registrar.contact.*;
 import io.netty.channel.ChannelFuture;
@@ -16,11 +16,12 @@ import org.slf4j.LoggerFactory;
  * Created by wangrenjie on 17/3/24.
  * 注册服务器
  */
-public class RegisterWorker implements IWorker {
+public class RegisterWorker extends AbstractWorker {
 
     private Logger logger = LoggerFactory.getLogger(RegisterWorker.class);
 
-    public void work(ChannelHandlerContext ctx, SipRequestMsg msg) {
+    @Override
+    public void innerWork(ChannelHandlerContext ctx, SipRequestMsg msg) {
         String contact = msg.getContact();
         ContactContext contactContext = ContactHolder.getContactContext(contact);
         if(null != msg.getHeaders().get(HeaderKeys.KEY_AUTHENTICATION)){

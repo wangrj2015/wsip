@@ -1,6 +1,7 @@
 package com.loavne.wsip.protocol.msg;
 
 import com.loavne.wsip.protocol.header.HeaderKeys;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
 
@@ -47,6 +48,9 @@ public class SipRequestMsg extends SipMsg{
 
     public String getContact(){
         String contact = this.getHeaders().get(HeaderKeys.KEY_TO);
+        if(contact.contains("<")){
+            contact = contact.substring(contact.indexOf("<") + 1, contact.indexOf(">"));
+        }
         return contact;
     }
 
@@ -57,7 +61,9 @@ public class SipRequestMsg extends SipMsg{
             sb.append(entry.getKey() + ": " + entry.getValue() + "\r\n");
         }
         sb.append("\r\n");
-        sb.append(body);
+        if(StringUtils.isNotEmpty(body)){
+            sb.append(body);
+        }
         return sb.toString();
     }
 }

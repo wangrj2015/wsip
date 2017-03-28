@@ -38,4 +38,6 @@ public abstract class SipMsg {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public abstract String getDirective();
 }

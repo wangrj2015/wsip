@@ -4,7 +4,7 @@ import com.loavne.wsip.protocol.msg.SipRequestMsg;
 import com.loavne.wsip.protocol.msg.SipStatusMsg;
 import com.loavne.wsip.protocol.header.HeaderKeys;
 import com.loavne.wsip.util.MapUtils;
-import com.loavne.wsip.worker.IWorker;
+import com.loavne.wsip.worker.AbstractWorker;
 import com.loavne.wsip.worker.registrar.contact.ContactContext;
 import com.loavne.wsip.worker.registrar.contact.ContactHolder;
 import io.netty.channel.ChannelFuture;
@@ -19,11 +19,12 @@ import java.util.UUID;
 /**
  * Created by wangrenjie on 17/3/26.
  */
-public class MessageWorker implements IWorker{
+public class MessageWorker extends AbstractWorker{
 
     private Logger logger = LoggerFactory.getLogger(MessageWorker.class);
 
-    public void work(final ChannelHandlerContext ctx, final SipRequestMsg msg) {
+    @Override
+    public void innerWork(final ChannelHandlerContext ctx, final SipRequestMsg msg) {
         String body = msg.getBody();
         if(null == body || body.contains("<?xml")){
             return;
@@ -58,4 +59,5 @@ public class MessageWorker implements IWorker{
             }
         });
     }
+
 }

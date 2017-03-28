@@ -1,5 +1,8 @@
 package com.loavne.wsip.protocol.msg;
 
+import com.loavne.wsip.protocol.header.HeaderKeys;
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Map;
 
 /**
@@ -43,6 +46,11 @@ public class SipStatusMsg extends SipMsg{
         this.statusCode = statusCode;
     }
 
+    public String getDirective(){
+        String cseq = this.getHeaders().get(HeaderKeys.KEY_CSEQ);
+        return cseq.split(" ")[1];
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer(version + " " + statusCode + " " + statusName + "\r\n");
@@ -50,6 +58,9 @@ public class SipStatusMsg extends SipMsg{
             sb.append(entry.getKey() + ": " + entry.getValue() + "\r\n");
         }
         sb.append("\r\n");
+        if(StringUtils.isNotEmpty(body)){
+            sb.append(body);
+        }
         return sb.toString();
     }
 }

@@ -6,9 +6,10 @@ import io.netty.channel.ChannelHandlerContext;
 /**
  * Created by wangrenjie on 17/3/25.
  */
-public class DefaultWorker implements IWorker{
+public class DefaultWorker extends AbstractWorker{
 
-    public void work(ChannelHandlerContext ctx, SipRequestMsg msg) {
+    @Override
+    public void innerWork(ChannelHandlerContext ctx, SipRequestMsg sipRequestMsg) {
         //do nothing
     }
 }

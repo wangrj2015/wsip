@@ -1,9 +1,8 @@
 package com.loavne.wsip.server;
 
 import com.loavne.wsip.protocol.msg.SipErrorMsg;
-import com.loavne.wsip.protocol.msg.SipStatusMsg;
+import com.loavne.wsip.protocol.msg.SipMsg;
 import com.loavne.wsip.worker.WorkerFactory;
-import com.loavne.wsip.protocol.msg.SipRequestMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
@@ -22,11 +21,8 @@ public class SipServerHandler extends ChannelInboundHandlerAdapter {
         if(msg instanceof SipErrorMsg){
             return;
         }
-        if(msg instanceof SipStatusMsg){
-            return;
-        }
-        SipRequestMsg sipRequestMsg = (SipRequestMsg) msg;
-        WorkerFactory.getWorker(sipRequestMsg).work(ctx,sipRequestMsg);
+        SipMsg sipMsg = (SipMsg) msg;
+        WorkerFactory.getWorker(sipMsg).work(ctx,sipMsg);
     }
 
     @Override
