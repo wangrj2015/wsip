@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+	<property name="app.logging.level" value="DEBUG" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.out</target>
+		<encoding>UTF-8</encoding>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>debug</level>
+		</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern><![CDATA[
+			 [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{0}:%L - %m%n
+            ]]></pattern>
+		</layout>
+	</appender>
+
+	<appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.err</target>
+		<encoding>UTF-8</encoding>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>error</level>
+		</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern><![CDATA[
+[%d{yyyy-MM-dd HH:mm:ss.SSS} ] - %X{method} %X{requestURIWithQueryString} [ip=%X{remoteAddr}, ref=%X{referrer}, ua=%X{userAgent}, sid=%X{cookie.JSESSIONID}]%n [%thread] %-5level %logger{35}:%L - %m%n
+            ]]></pattern>
+		</layout>
+	</appender>
+
+	<!-- 生成日志文件 -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--日志文件输出的文件名 -->
+		<file>${app.output}/logs/app.log</file>
+
+		<!-- 固定数量的日志文件，防止将磁盘占满 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${app.output}/logs/app.%i.log.zip
+			</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>500MB</MaxFileSize>
+		</triggeringPolicy>
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{requestURIWithQueryString}] [%thread] %-5level %logger{20}:%L - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<root>
+		<level value="${app.logging.level}" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="STDERR" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>
