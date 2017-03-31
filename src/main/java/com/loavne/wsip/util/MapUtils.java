@@ -10,7 +10,7 @@ public class MapUtils {
 
     public static void copy(Map<String,String> from, Map<String,String> to, ValueFilter valueFilter, String... keys){
         Arrays.asList(keys).stream().
-                map(key -> to.put(key,valueFilter.newValue(key, from.get(key))));
+                forEach(key -> to.put(key,valueFilter.newValue(key, from.get(key))));
     }
 
     public interface ValueFilter{
