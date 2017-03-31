@@ -1,5 +1,6 @@
 package com.loavne.wsip.util;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -8,9 +9,8 @@ import java.util.Map;
 public class MapUtils {
 
     public static void copy(Map<String,String> from, Map<String,String> to, ValueFilter valueFilter, String... keys){
-        for(String key : keys){
-            to.put(key,valueFilter.newValue(key, from.get(key)));
-        }
+        Arrays.asList(keys).stream().
+                map(key -> to.put(key,valueFilter.newValue(key, from.get(key))));
     }
 
     public interface ValueFilter{

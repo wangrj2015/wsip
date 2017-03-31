@@ -22,14 +22,12 @@ public class ContactStateInit implements ContactState {
         headers.put(HeaderKeys.KEY_WWW_AUTHENTICATE,
                 "Digest realm=\"127.0.0.1\",nonce=\"" + System.currentTimeMillis() + "\"");
 
-        MapUtils.copy(msg.getHeaders(), headers, new MapUtils.ValueFilter() {
-                    public String newValue(String key, String value) {
-                        //To
-                        if(HeaderKeys.KEY_TO.equals(key)){
-                            return "<" + value + ">;tag=" + UUID.randomUUID().toString().replaceAll("-","");
-                        }
-                        return value;
+        MapUtils.copy(msg.getHeaders(), headers, (key,value) -> {
+                    //To
+                    if(HeaderKeys.KEY_TO.equals(key)){
+                        return "<" + value + ">;tag=" + UUID.randomUUID().toString().replaceAll("-","");
                     }
+                    return value;
                 }, HeaderKeys.KEY_VIA,
                 HeaderKeys.KEY_CALL_ID,
                 HeaderKeys.KEY_CSEQ,

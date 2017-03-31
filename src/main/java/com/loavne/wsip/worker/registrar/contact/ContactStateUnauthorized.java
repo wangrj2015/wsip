@@ -35,14 +35,12 @@ public class ContactStateUnauthorized implements ContactState{
         headers.put(HeaderKeys.KEY_SERVER, Constants.SERVER);
         headers.put(HeaderKeys.KEY_CONTACT, "<" + msg.getContact() + ">;expires=" + Constants.DEFAULT_EXPIRES);
 
-        MapUtils.copy(msg.getHeaders(), headers, new MapUtils.ValueFilter() {
-                    public String newValue(String key, String value) {
-                        //To
-                        if(HeaderKeys.KEY_TO.equals(key)){
-                            return "<" + value + ">;tag=" + UUID.randomUUID().toString().replaceAll("-","");
-                        }
-                        return value;
+        MapUtils.copy(msg.getHeaders(), headers, (key,value) -> {
+                    //To
+                    if(HeaderKeys.KEY_TO.equals(key)){
+                        return "<" + value + ">;tag=" + UUID.randomUUID().toString().replaceAll("-","");
                     }
+                    return value;
                 }, HeaderKeys.KEY_VIA,
                 HeaderKeys.KEY_CALL_ID,
                 HeaderKeys.KEY_CSEQ,
