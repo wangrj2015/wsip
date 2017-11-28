@@ -28,7 +28,8 @@ public class SipServer {
         if(null != instance){
             return instance;
         }
-        return new SipServer();
+        instance = new SipServer();
+        return instance;
     }
 
     public void start(){
