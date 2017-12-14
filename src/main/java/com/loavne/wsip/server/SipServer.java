@@ -1,5 +1,6 @@
 package com.loavne.wsip.server;
 
+import com.loavne.wsip.Config;
 import com.loavne.wsip.protocol.SipMsgDecoder;
 import com.loavne.wsip.protocol.SipRequestEncoder;
 import com.loavne.wsip.protocol.SipStatusEncoder;
@@ -48,8 +49,8 @@ public class SipServer {
                     })
                     .option(ChannelOption.SO_BACKLOG,128)
                     .childOption(ChannelOption.SO_KEEPALIVE,true);
-            ChannelFuture f = bootstrap.bind(10003).sync();
-            logger.info("SipProxyServer start at port:10003");
+            ChannelFuture f = bootstrap.bind(Config.getPort()).sync();
+            logger.info("SipProxyServer start at port:" + Config.getPort());
             f.channel().closeFuture().sync();
         }catch(InterruptedException e){
             logger.error("SipProxyServer start failed",e);

@@ -8,6 +8,9 @@ import com.loavne.wsip.server.SipServer;
 public class Launcher {
 
     public static void main(String[] args){
+        if(args.length > 0){
+            Config.setPort(Integer.parseInt(args[0]));
+        }
         SipServer.getInstance().start();
     }
 }
