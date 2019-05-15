@@ -51,6 +51,11 @@ public class SipStatusMsg extends SipMsg{
         return cseq.split(" ")[1];
     }
 
+    public String getContact(){
+        String contact = this.getHeaders().get(HeaderKeys.KEY_FROM);
+        return contact.substring(contact.indexOf("sip:"),contact.indexOf("@"));
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer(version + " " + statusCode + " " + statusName + "\r\n");

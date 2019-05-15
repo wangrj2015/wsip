@@ -34,8 +34,7 @@ public class MessageWorker extends AbstractWorker{
 
     @Override
     public void innerWork(ChannelHandlerContext ctx, SipStatusMsg msg) {
-        String from = msg.getHeaders().get(HeaderKeys.KEY_FROM);
-        String contact = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+        String contact = msg.getContact();
         ContactContext contactContext = ContactHolder.getOkContactContext(contact);
         if(null == contactContext){
             logger.error("contact:{} not found ",contact);

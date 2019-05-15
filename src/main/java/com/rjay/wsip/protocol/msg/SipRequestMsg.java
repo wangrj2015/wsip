@@ -48,9 +48,10 @@ public class SipRequestMsg extends SipMsg{
 
     public String getContact(){
         String contact = this.getHeaders().get(HeaderKeys.KEY_TO);
-        if(contact.contains("<")){
-            contact = contact.substring(contact.indexOf("<") + 1, contact.indexOf(">"));
-        }
+        contact = contact.substring(contact.indexOf("sip:"),contact.indexOf("@"));
+//        if(contact.contains("<")){
+//            contact = contact.substring(contact.indexOf("<") + 1, contact.indexOf(">"));
+//        }
         return contact;
     }
 

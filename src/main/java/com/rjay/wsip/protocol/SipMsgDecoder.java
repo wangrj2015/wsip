@@ -46,6 +46,9 @@ public class SipMsgDecoder extends LineBasedFrameDecoder {
             return null;
         }
         String message = msgBuffer.toString();
+        if(StringUtils.isEmpty(message)){
+            return null;
+        }
         logger.debug("receive:{}",message);
 
         String[] array = msgBuffer.getHeaders().toString().split("\r\n");
