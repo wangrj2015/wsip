@@ -20,11 +20,12 @@ public class ContactHolder {
         if(null == context){
             return null;
         }
-        if(System.currentTimeMillis() > context.getExpiresMillTimes()){
+        if(System.currentTimeMillis() - context.getLastActiveMillTime() >= context.getExpires()*1000){
             logger.warn("Contact:{} expired",contact);
             contactContextMap.remove(contact);
             return null;
         }
+        context.setLastActiveMillTime(System.currentTimeMillis());
         return context;
     }
 

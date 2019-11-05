@@ -17,7 +17,7 @@ public class ContactContext {
 
     private int expires;
 
-    private long expiresMillTimes;
+    private long lastActiveMillTime;
 
     public ContactContext(String contact) {
         this.contact = contact;
@@ -44,12 +44,12 @@ public class ContactContext {
         return contactState;
     }
 
-    public long getExpiresMillTimes() {
-        return expiresMillTimes;
+    public long getLastActiveMillTime() {
+        return lastActiveMillTime;
     }
 
-    public void setExpiresMillTimes(long expiresMillTimes) {
-        this.expiresMillTimes = expiresMillTimes;
+    public void setLastActiveMillTime(long lastActiveMillTime) {
+        this.lastActiveMillTime = lastActiveMillTime;
     }
 
     public String getContact() {

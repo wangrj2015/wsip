@@ -39,17 +39,13 @@ public class RegisterWorker extends AbstractWorker {
         }
         final ContactContext c = contactContext;
         ChannelFuture f = ctx.writeAndFlush(statusMsg);
-        f.addListener(new ChannelFutureListener() {
-            public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                c.nextState();
-            }
-        });
+        f.addListener(channelFuture -> c.nextState());
     }
 
     private ContactContext rebuildContext(String contact, ContactState contactState){
         ContactContext contactContext = new ContactContext(contact);
         contactContext.setExpires(Constants.DEFAULT_EXPIRES);
-        contactContext.setExpiresMillTimes(System.currentTimeMillis() + Constants.DEFAULT_EXPIRES * 1000);
+        contactContext.setLastActiveMillTime(System.currentTimeMillis());
         contactContext.setContactState(contactState);
         ContactHolder.putContactContext(contact,contactContext);
         return contactContext;

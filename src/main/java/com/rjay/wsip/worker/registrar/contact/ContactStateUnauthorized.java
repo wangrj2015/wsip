@@ -67,12 +67,9 @@ public class ContactStateUnauthorized implements ContactState{
             }
             String key = matcher.group(1);
             String value = matcher.group(2);
-            Constants.KEYLIST.forEach(new Consumer<String>() {
-                @Override
-                public void accept(String s) {
-                    if(key.contains(s)){
-                        map.put(s,value);
-                    }
+            Constants.KEYLIST.forEach(s -> {
+                if(key.contains(s)){
+                    map.put(s,value);
                 }
             });
         }

@@ -10,7 +10,7 @@ public class Constants {
 
     public static final String SERVER = "wsip/1.0 (wangrenjie)";
 
-    public static final int DEFAULT_EXPIRES = 1200;
+    public static final int DEFAULT_EXPIRES = 600;
 
     public static final String REALM = "realm";
 
